@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1050321756951",
+    "project_id": "onelock-253a0",
+    "storage_bucket": "onelock-253a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050321756951:android:38da38f1ead3ba0e490d52",
+        "android_client_info": {
+          "package_name": "com.example.onelock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050321756951-kpe2e9eilbnue54fprd6ue7s5u77spk5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.onelock",
+            "certificate_hash": "dd2dd00a0312be0e5574ef61b9317b924131c4de"
+          }
+        },
+        {
+          "client_id": "1050321756951-n8ae4k4jk2lb5n5t99142jd7925lkt3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEEKOgAMiNHqT26dqkginkg9NsaY-SVXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050321756951-n8ae4k4jk2lb5n5t99142jd7925lkt3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
