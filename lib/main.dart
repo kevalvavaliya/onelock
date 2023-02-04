@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:onelock/providers/PeerProvider.dart';
 import 'package:onelock/providers/gauthprovider.dart';
+import 'package:onelock/providers/singaling.dart';
 import 'package:onelock/screens/docscreen.dart';
 import 'package:onelock/screens/homescreen.dart';
 import 'package:onelock/screens/loginscreen.dart';
@@ -27,8 +28,15 @@ class MyApp extends StatelessWidget {
           create: (ctx) => GauthProvider(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => PeerProvider(),
+          create: (ctx) => SignalingSocket(),
         ),
+        ChangeNotifierProxyProvider<SignalingSocket, PeerProvider>(
+          create: (ctx) => PeerProvider(),
+          update: (ctx, signaling, peer) => peer!..update(signaling),
+        ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => PeerProvider(),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

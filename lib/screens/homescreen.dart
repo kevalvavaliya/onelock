@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:onelock/models/Peermodel.dart';
 import 'package:onelock/providers/PeerProvider.dart';
 import 'package:onelock/providers/gauthprovider.dart';
+import 'package:onelock/providers/singaling.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,6 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           Provider.of<PeerProvider>(context, listen: false)
                               .createpeerOffer(),
                       child: Text("Create offer"),
+                    ),
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          Provider.of<SignalingSocket>(context, listen: false)
+                              .connectToServer(),
+                      child: Text("socket test"),
                     ),
                   )
                 ],

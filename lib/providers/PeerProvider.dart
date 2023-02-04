@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:onelock/models/Peermodel.dart';
-import 'package:onelock/providers/Dbutil.dart';
+import 'package:onelock/providers/singaling.dart';
 import 'package:sdp_transform/sdp_transform.dart';
 import 'dart:convert';
 
 class PeerProvider extends ChangeNotifier {
   PeerModel peerModel = PeerModel();
   bool _offer = false;
+  SignalingSocket? signalsocket;
+  void update(SignalingSocket signalsockets) {
+    signalsocket = signalsockets;
+    signalsocket!.connectToServer();
+    // print("is socket null ${signalsocket == null}");
+  }
 
   Future<void> createConnection() async {
     peerModel.localPeerConnection = await createPeerConnection({
@@ -23,6 +29,14 @@ class PeerProvider extends ChangeNotifier {
           'sdpMid': e.sdpMid.toString(),
           'sdpMlineIndex': e.sdpMLineIndex,
         }));
+        signalsocket!.sendData({
+          'type': 'candidate',
+          'candidate': {
+            'candidate': e.candidate.toString(),
+            'sdpMid': e.sdpMid.toString(),
+            'sdpMlineIndex': e.sdpMLineIndex,
+          }
+        });
       }
     };
 
@@ -48,17 +62,19 @@ class PeerProvider extends ChangeNotifier {
     var lp = await peerModel.localPeerConnection!.createOffer({});
     var session = parse(lp.sdp.toString());
     _offer = true;
-    
-    print("CREATE OFFER" + jsonEncode(session));
-
-    peerModel.localPeerConnection!.setLocalDescription(lp);
-    await Dbutil.insertOffer(lp);
+    if (signalsocket == null) {
+      print("socket null in peer");
+    } else {
+      print("CREATE OFFER" + jsonEncode(session));
+      signalsocket!.sendData(session);
+    } // peerModel.localPeerConnection!.setLocalDescription(lp);
+    // await Dbutil.insertOffer(session);
   }
 
   void createpeerAnswer() async {
     var lp = await peerModel.localPeerConnection!.createAnswer({});
     peerModel.localPeerConnection!.setLocalDescription(lp);
-
+    signalsocket!.sendData(jsonEncode(lp.sdp.toString()));
     print("CREATE ANSWER" + jsonEncode(parse(lp.sdp.toString())));
   }
 
